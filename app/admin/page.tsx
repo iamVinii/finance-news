@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Article, getarticle, savearticle, addPublished, seedIfEmpty } from "../../lib/store";
+import { Article, getDrafts, saveDrafts, addPublished, seedIfEmpty } from "../../lib/store";
 
 interface Draft {
   id: string;
@@ -64,7 +64,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     seedIfEmpty();
-    const data = getarticle();
+    const data = getDrafts();
     setarticle(data);
     setSelected(data[0]);
     setMounted(true);
@@ -80,7 +80,7 @@ export default function AdminPage() {
     if (!article) return;
     addPublished({ ...article, publishedAt: new Date().toISOString() });
     const remaining = article.filter(d => d.id !== id);
-    savearticle(remaining);
+    saveDrafts(remaining);
     setarticle(remaining);
     setPublishedToday(p => p + 1);
     setSelected(remaining[0] || null);
@@ -90,7 +90,7 @@ export default function AdminPage() {
 
   function handleReject(id: string) {
     const remaining = article.filter(d => d.id !== id);
-    savearticle(remaining);
+    saveDrafts(remaining);
     setarticle(remaining);
     setSelected(remaining[0] || null);
     setEditMode(false);
