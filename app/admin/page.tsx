@@ -76,7 +76,7 @@ export default function AdminPage() {
   }
 
   function handlePublish(id: string) {
-    const article = article.find(d => d.id === id);
+    const article: Article | undefined = drafts.find(d => d.id === id);
     if (!article) return;
     addPublished({ ...article, publishedAt: new Date().toISOString() });
     const remaining = article.filter(d => d.id !== id);
