@@ -1,0 +1,15 @@
+# Next.js
+.next/
+out/
+
+# Dependências
+node_modules/
+
+# Ambiente
+.env
+.env.local
+.env.production
+
+# Sistema
+.DS_Store
+*.pem
