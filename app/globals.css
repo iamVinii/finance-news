@@ -106,3 +106,57 @@ body {
   .email-row { flex-direction: column !important; }
   .email-row input, .email-row button { width: 100% !important; }
 }
+
+/* ── Mobile responsivo ─────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Navbar: esconde links do meio */
+  .nav-links-desktop { display: none !important; }
+
+  /* Seções com padding menor */
+  section { padding-left: 16px !important; padding-right: 16px !important; }
+
+  /* Grid de notícias: 1 coluna */
+  div[style*="grid-template-columns: 2fr 1fr 1fr"] {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Grid de 4 colunas: 2 colunas */
+  div[style*="repeat(4,1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Grid de 5 colunas: 2 colunas */
+  div[style*="repeat(5,1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Newsletter: empilha input e botão */
+  .email-row {
+    flex-direction: column !important;
+  }
+
+  /* Títulos menores */
+  h1[style*="font-size: 34px"] { font-size: 26px !important; }
+  h2[style*="font-size: 34px"] { font-size: 26px !important; }
+  h1[style*="font-size: 26px"] { font-size: 22px !important; }
+
+  /* Footer empilhado */
+  footer {
+    flex-direction: column !important;
+    gap: 12px !important;
+    text-align: center !important;
+  }
+
+  /* Bottom nav aparece */
+  .bottom-nav { display: flex !important; }
+  body { padding-bottom: 64px; }
+}
+
+@media (max-width: 480px) {
+  /* Grid de 4: 1 coluna em telas muito pequenas */
+  div[style*="repeat(4,1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+}
