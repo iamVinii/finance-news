@@ -14,7 +14,7 @@ interface Draft {
   createdAt: string;
 }
 
-function getMockarticle(): Draft[] {
+function getMockDrafts(): Draft[] {
   const now = Date.now();
   return [
     {
@@ -54,8 +54,8 @@ function getMockarticle(): Draft[] {
 
 export default function AdminPage() {
   const [mounted, setMounted] = useState(false);
-  const [article, setarticle] = useState<Draft[]>([]);
-  const [selected, setSelected] = useState<Draft | null>(null);
+  const [drafts, setDrafts] = useState<Article[]>([]);
+  const [selected, setSelected] = useState<Article | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [editTitle, setEditTitle] = useState("");
   const [editSummary, setEditSummary] = useState("");
@@ -65,7 +65,7 @@ export default function AdminPage() {
   useEffect(() => {
     seedIfEmpty();
     const data = getDrafts();
-    setarticle(data);
+    setDrafts(data);
     setSelected(data[0]);
     setMounted(true);
   }, []);
@@ -76,12 +76,12 @@ export default function AdminPage() {
   }
 
   function handlePublish(id: string) {
-    const article: Article | undefined = drafts.find(d => d.id === id);
-    if (!article) return;
-    addPublished({ ...article, publishedAt: new Date().toISOString() });
-    const remaining = article.filter(d => d.id !== id);
+    const found: Article | undefined = drafts.find(d => d.id === id);
+if (!found) return;
+    addPublished({ ...found, publishedAt: new Date().toISOString() });
+    const remaining = drafts.filter(d => d.id !== id);
     saveDrafts(remaining);
-    setarticle(remaining);
+    setDrafts(remaining);
     setPublishedToday(p => p + 1);
     setSelected(remaining[0] || null);
     setEditMode(false);
@@ -89,16 +89,16 @@ export default function AdminPage() {
   }
 
   function handleReject(id: string) {
-    const remaining = article.filter(d => d.id !== id);
+    const remaining = drafts.filter(d => d.id !== id);
     saveDrafts(remaining);
-    setarticle(remaining);
+    setDrafts(remaining);
     setSelected(remaining[0] || null);
     setEditMode(false);
     showToast("Rascunho rejeitado.", "error");
   }
 
   function handleSaveEdit(id: string) {
-    setarticle(prev => prev.map(d => d.id === id ? { ...d, title: editTitle, summary: editSummary } : d));
+    setDrafts(prev => prev.map(d => d.id === id ? { ...d, title: editTitle, summary: editSummary } : d));
     setSelected(prev => prev ? { ...prev, title: editTitle, summary: editSummary } : null);
     setEditMode(false);
     showToast("Edições salvas!");
@@ -142,7 +142,7 @@ export default function AdminPage() {
           </span>
         </div>
         <div style={{ display: "flex", gap: 20, fontSize: 13, color: "var(--text-secondary)" }}>
-          <span>📥 <strong style={{ color: "var(--text-primary)" }}>{article.length}</strong> aguardando</span>
+          <span>📥 <strong style={{ color: "var(--text-primary)" }}>{drafts.length}</strong> aguardando</span>
           <span>✅ <strong style={{ color: "var(--text-primary)" }}>{publishedToday}</strong> publicadas hoje</span>
           <a href="/" style={{ color: "var(--accent-text)", textDecoration: "none" }}>← Ver site</a>
         </div>
@@ -157,14 +157,14 @@ export default function AdminPage() {
             </p>
           </div>
 
-          {article.length === 0 ? (
+          {drafts.length === 0 ? (
             <div style={{ padding: 32, textAlign: "center" }}>
               <p style={{ fontSize: 32, marginBottom: 8 }}>✅</p>
               <p style={{ fontSize: 14, color: "var(--text-secondary)" }}>Tudo revisado por hoje!</p>
               <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>Novos rascunhos chegam às 12h e 18h.</p>
             </div>
           ) : (
-            article.map(draft => (
+            drafts.map(draft => (
               <div
                 key={draft.id}
                 onClick={() => { setSelected(draft); setEditMode(false); }}
