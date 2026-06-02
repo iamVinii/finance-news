@@ -1,4 +1,4 @@
-import { Article } from "../types/article";
+import { Article } from "../src/types/article";
 
 export function getMockDrafts(): Article[] {
   const now = Date.now();

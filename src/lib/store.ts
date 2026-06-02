@@ -1,10 +1,8 @@
+import { getMockDrafts } from "../mocks/mock-articles";
 import { Article } from "../types/article";
-import { getMockDrafts } from "../data/mock-articles";
 
-const KEY_PUBLISHED = "fn_published";
-const KEY_DRAFTS = "fn_drafts";
-
-export type { Article };
+const KEY_PUBLISHED: string = "fn_published";
+const KEY_DRAFTS: string = "fn_drafts";
 
 export function getPublished(): Article[] {
   if (typeof window === "undefined") return [];

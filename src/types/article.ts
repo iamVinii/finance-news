@@ -6,6 +6,7 @@ export interface Article {
   category: string;
   isPro: boolean;
   readingTime: number;
+  slug?: string,
   publishedAt: string;
   createdAt: string;
 }

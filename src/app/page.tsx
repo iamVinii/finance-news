@@ -1,71 +1,14 @@
 "use client";
 
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { BottomNav } from "../components/layout/BottomNav";
 import { Navbar } from "../components/layout/Navbar";
 import { Ticker } from "../components/layout/Ticker";
-import { BottomNav } from "../components/layout/BottomNav";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { Article, getPublished } from "../lib/store";
-
-function timeAgo(dateStr: string) {
-  const mins = Math.floor((Date.now() - new Date(dateStr).getTime()) / 60000);
-  if (mins < 60) return `Há ${mins} min`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `Há ${hrs}h`;
-  return `Há ${Math.floor(hrs / 24)}d`;
-}
-
-const METRICS = [
-  { name: "Ibovespa",   value: "131.284",  change: "+1.578 pts", up: true,  neutral: false },
-  { name: "Dólar/Real", value: "R$ 5,82",  change: "-0,4% hoje", up: false, neutral: false },
-  { name: "Selic",      value: "10,75%",   change: "ao ano",     up: false, neutral: true  },
-  { name: "Bitcoin",    value: "$106.200", change: "+2,1% hoje", up: true,  neutral: false },
-  { name: "IPCA 12m",   value: "4,83%",    change: "acumulado",  up: false, neutral: true  },
-];
-
-function NewsItem({ article, variant }: { article: Article; variant: "main" | "side" | "small" }) {
-  const tag = (
-    <span style={{
-      display: "inline-block", fontSize: 11, fontWeight: 500,
-      padding: "3px 10px", borderRadius: 20, marginBottom: 8,
-      background: "rgba(29,158,117,0.12)", color: "var(--accent-text)",
-    }}>
-      {article.category.charAt(0) + article.category.slice(1).toLowerCase()}
-    </span>
-  );
-
-  if (variant === "main") return (
-    <div style={{
-      background: "var(--bg-card)", border: "0.5px solid var(--border)",
-      borderRadius: 12, padding: "28px 24px 24px", minHeight: 260,
-      display: "flex", flexDirection: "column", justifyContent: "flex-end",
-      position: "relative", overflow: "hidden", cursor: "pointer",
-    }}>
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "var(--accent)" }} />
-      {tag}
-      <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, fontWeight: 400, lineHeight: 1.35, color: "var(--text-primary)", marginBottom: 8 }}>
-        {article.title}
-      </h2>
-      <p style={{ fontSize: 12, color: "var(--text-muted)" }}>{timeAgo(article.publishedAt)} · {article.readingTime} min</p>
-    </div>
-  );
-
-  if (variant === "small") return (
-    <div style={{ background: "var(--bg-card)", border: "0.5px solid var(--border)", borderRadius: 10, padding: "14px 16px", cursor: "pointer" }}>
-      {tag}
-      <p style={{ fontSize: 13, fontWeight: 500, lineHeight: 1.4, color: "var(--text-primary)", marginBottom: 4 }}>{article.title}</p>
-      <p style={{ fontSize: 12, color: "var(--text-muted)" }}>{timeAgo(article.publishedAt)}</p>
-    </div>
-  );
-
-  return (
-    <div style={{ padding: "0 0 14px", cursor: "pointer" }}>
-      {tag}
-      <p style={{ fontSize: 14, fontWeight: 500, lineHeight: 1.4, color: "var(--text-primary)", marginBottom: 4 }}>{article.title}</p>
-      <p style={{ fontSize: 12, color: "var(--text-muted)" }}>{timeAgo(article.publishedAt)}</p>
-    </div>
-  );
-}
+import { NewsCard } from "../components/news/NewsCard";
+import { METRICS } from "../constants/monetaryMetrics";
+import { getPublished } from "../lib/store";
+import { Article } from "../types/article";
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -123,12 +66,12 @@ export default function HomePage() {
           <>
             {featured && (
               <div style={{ display: "grid", gridTemplateColumns: sideArticles.length > 0 ? "2fr 1fr 1fr" : "1fr", gap: 14, marginBottom: 14 }}>
-                <NewsItem article={featured} variant="main" />
+                <NewsCard article={featured} variant="main" />
                 {sideArticles.length >= 2 && (
                   <div style={{ background: "var(--bg-card)", border: "0.5px solid var(--border)", borderRadius: 12, padding: 20 }}>
                     {sideArticles.slice(0, 2).map((a, i) => (
                       <div key={a.id} style={{ borderBottom: i === 0 ? "0.5px solid var(--border)" : "none" }}>
-                        <NewsItem article={a} variant="side" />
+                        <NewsCard article={a} variant="side" />
                       </div>
                     ))}
                   </div>
@@ -137,7 +80,7 @@ export default function HomePage() {
                   <div style={{ background: "var(--bg-card)", border: "0.5px solid var(--border)", borderRadius: 12, padding: 20 }}>
                     {sideArticles.slice(2, 4).map((a, i) => (
                       <div key={a.id} style={{ borderBottom: i === 0 ? "0.5px solid var(--border)" : "none" }}>
-                        <NewsItem article={a} variant="side" />
+                        <NewsCard article={a} variant="side" />
                       </div>
                     ))}
                   </div>
@@ -147,7 +90,7 @@ export default function HomePage() {
 
             {smallArticles.length > 0 && (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 32 }}>
-                {smallArticles.map(a => <NewsItem key={a.id} article={a} variant="small" />)}
+                {smallArticles.map(a => <NewsCard key={a.id} article={a} variant="small" />)}
               </div>
             )}
           </>

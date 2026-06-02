@@ -1,30 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { BottomNav } from "../../components/layout/BottomNav";
 import { Navbar } from "../../components/layout/Navbar";
 import { Ticker } from "../../components/layout/Ticker";
-import { BottomNav } from "../../components/layout/BottomNav";
-import { Article, getPublished } from "../../lib/store";
-
-const CATEGORIES = [
-  { key: "TODOS", label: "Todos" },
-  { key: "MACROECONOMIA", label: "Macro" },
-  { key: "BOLSA", label: "Bolsa" },
-  { key: "CAMBIO", label: "Câmbio" },
-  { key: "CRIPTO", label: "Cripto" },
-  { key: "INTERNACIONAL", label: "Internacional" },
-  { key: "FISCAL", label: "Fiscal" },
-  { key: "ENERGIA", label: "Energia" },
-  { key: "FUNDOS", label: "Fundos" },
-];
-
-function timeAgo(dateStr: string) {
-  const mins = Math.floor((Date.now() - new Date(dateStr).getTime()) / 60000);
-  if (mins < 60) return `Há ${mins} min`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `Há ${hrs}h`;
-  return `Há ${Math.floor(hrs / 24)}d`;
-}
+import { CATEGORIES } from "../../constants/newsCategory";
+import { getPublished } from "../../lib/store";
+import { Article } from "../../types/article";
+import { timeAgo } from "../../utils/time";
 
 export default function NoticiasPage() {
   const [mounted, setMounted] = useState(false);
