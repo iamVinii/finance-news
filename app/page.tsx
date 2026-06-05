@@ -6,22 +6,14 @@ import { BottomNav } from "../components/layout/BottomNav";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Article, getPublished } from "../lib/store";
+import { METRICS } from "../constants/market";
 
 function timeAgo(dateStr: string) {
   const mins = Math.floor((Date.now() - new Date(dateStr).getTime()) / 60000);
   if (mins < 60) return `Há ${mins} min`;
   const hrs = Math.floor(mins / 60);
   if (hrs < 24) return `Há ${hrs}h`;
-  return `Há ${Math.floor(hrs / 24)}d`;
-}
-
-const METRICS = [
-  { name: "Ibovespa",   value: "131.284",  change: "+1.578 pts", up: true,  neutral: false },
-  { name: "Dólar/Real", value: "R$ 5,82",  change: "-0,4% hoje", up: false, neutral: false },
-  { name: "Selic",      value: "10,75%",   change: "ao ano",     up: false, neutral: true  },
-  { name: "Bitcoin",    value: "$106.200", change: "+2,1% hoje", up: true,  neutral: false },
-  { name: "IPCA 12m",   value: "4,83%",    change: "acumulado",  up: false, neutral: true  },
-];
+  return `Há ${Math.floor(hrs / 24)}d`;}
 
 function NewsItem({ article, variant }: { article: Article; variant: "main" | "side" | "small" }) {
   const tag = (

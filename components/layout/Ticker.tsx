@@ -1,16 +1,5 @@
 "use client";
-import { useState } from "react";
-
-const QUOTES = [
-  { symbol: "IBOV",   price: "131.284",  changePct: 1.2  },
-  { symbol: "USD/BRL",price: "R$ 5,82",  changePct: -0.4 },
-  { symbol: "SELIC",  price: "10,75%",   changePct: 0    },
-  { symbol: "BTC",    price: "$106.200", changePct: 2.1  },
-  { symbol: "WTI",    price: "$78,4",    changePct: -0.8 },
-  { symbol: "Ouro",   price: "$3.180",   changePct: 0.5  },
-  { symbol: "EUR/BRL",price: "R$ 6,31",  changePct: -0.2 },
-  { symbol: "IPCA",   price: "4,83%",    changePct: 0    },
-];
+import { QUOTES } from "../../constants/market";
 
 export function Ticker() {
   const items = [...QUOTES, ...QUOTES];

@@ -1,14 +1,5 @@
 import Link from "next/link";
-
-interface Article {
-  slug: string;
-  title: string;
-  summary: string;
-  category: string;
-  isPro: boolean;
-  readingTime: number;
-  publishedAt: string;
-}
+import { Article } from "../../types/article";
 
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
