@@ -5,8 +5,8 @@ import { useAdmin } from "../../hooks/useAdmin";
 export default function AdminPage() {
   const {
     mounted, drafts, selected, editMode,
-    editTitle, editSummary, publishedToday, toast,
-    setEditTitle, setEditSummary,
+    editTitle, editSummary, editContent, publishedToday, toast,
+    setEditTitle, setEditSummary, setEditContent,
     selectDraft, publish, reject,
     startEdit, saveEdit, cancelEdit,
     timeAgo,
@@ -143,14 +143,30 @@ export default function AdminPage() {
               )}
             </div>
 
-            <div style={{ marginBottom: 100 }}>
-              <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 12 }}>CONTEÚDO COMPLETO</p>
-              {selected.content.split("\n\n").map((para, i) => (
-                <p key={i} style={{ fontSize: 15, lineHeight: 1.75, color: "var(--text-primary)", marginBottom: 16 }}>
-                  {para}
-                </p>
-              ))}
-            </div>
+           <div style={{ marginBottom: 100 }}>
+  <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 12 }}>CONTEÚDO COMPLETO</p>
+  {editMode ? (
+    <textarea
+      value={editContent}
+      onChange={e => setEditContent(e.target.value)}
+      style={{
+        width: "100%", fontSize: 15, lineHeight: 1.75,
+        color: "var(--text-primary)", background: "var(--bg-secondary)",
+        border: "0.5px solid var(--accent)", borderRadius: 8,
+        padding: "14px", fontFamily: "inherit",
+        resize: "vertical", outline: "none",
+        minHeight: 300,
+      }}
+      rows={12}
+    />
+  ) : (
+    selected.content.split("\n\n").map((para, i) => (
+      <p key={i} style={{ fontSize: 15, lineHeight: 1.75, color: "var(--text-primary)", marginBottom: 16 }}>
+        {para}
+      </p>
+    ))
+  )}
+</div>
 
             <div style={{ position: "sticky", bottom: 0, background: "var(--bg-primary)", borderTop: "0.5px solid var(--border)", padding: "16px 0", display: "flex", gap: 10 }}>
               {editMode ? (

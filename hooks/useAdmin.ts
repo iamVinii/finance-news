@@ -9,6 +9,7 @@ export function useAdmin() {
   const [editMode, setEditMode] = useState(false);
   const [editTitle, setEditTitle] = useState("");
   const [editSummary, setEditSummary] = useState("");
+  const [editContent, setEditContent] = useState("");
   const [publishedToday, setPublishedToday] = useState(0);
   const [toast, setToast] = useState<{ msg: string; type: "success" | "error" } | null>(null);
 
@@ -55,6 +56,7 @@ export function useAdmin() {
   function startEdit(draft: Article) {
     setEditTitle(draft.title);
     setEditSummary(draft.summary);
+    setEditContent(draft.content);
     setEditMode(true);
   }
 
@@ -64,7 +66,7 @@ export function useAdmin() {
     );
     saveDrafts(updated);
     setDrafts(updated);
-    setSelected(prev => prev ? { ...prev, title: editTitle, summary: editSummary } : null);
+    setSelected(prev => prev ? { ...prev, title: editTitle, summary: editSummary, content: editContent } : null);
     setEditMode(false);
     showToast("Edições salvas!");
   }
@@ -81,8 +83,8 @@ export function useAdmin() {
 
   return {
     mounted, drafts, selected, editMode,
-    editTitle, editSummary, publishedToday, toast,
-    setEditTitle, setEditSummary,
+    editTitle, editSummary, editContent, publishedToday, toast,
+    setEditTitle, setEditSummary, setEditContent,
     selectDraft, publish, reject,
     startEdit, saveEdit, cancelEdit,
     timeAgo,
