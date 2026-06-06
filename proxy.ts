@@ -1,9 +1,15 @@
-import { withAuth } from "next-auth/middleware";
+import { auth } from "./lib/auth";
+import { NextResponse } from "next/server";
 
-export default withAuth({
-  pages: {
-    signIn: "/login",
-  },
+export default auth((req) => {
+  const isLoggedIn = !!req.auth;
+  const isAdminRoute = req.nextUrl.pathname.startsWith("/admin");
+
+  if (isAdminRoute && !isLoggedIn) {
+    return NextResponse.redirect(new URL("/login", req.nextUrl));
+  }
+
+  return NextResponse.next();
 });
 
 export const config = {
