@@ -1,5 +1,5 @@
-import { Article } from "../types/article";
-import { getMockDrafts } from "../data/mock-articles";
+import { Article } from "@/types/article";
+import { getMockDrafts } from "@/data/mock-articles";
 
 const KEY_PUBLISHED = "fn_published";
 const KEY_DRAFTS = "fn_drafts";

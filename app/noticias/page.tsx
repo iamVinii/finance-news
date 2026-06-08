@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Navbar } from "../../components/layout/Navbar";
-import { Ticker } from "../../components/layout/Ticker";
-import { BottomNav } from "../../components/layout/BottomNav";
-import { NewsCard } from "../../components/news/NewsCard";
-import { Article, getPublished } from "../../lib/store";
+import { Navbar } from "@/components/layout/Navbar";
+import { Ticker } from "@/components/layout/Ticker";
+import { BottomNav } from "@/components/layout/BottomNav";
+import { NewsCard } from "@/components/news/NewsCard";
+import { Article, getPublished } from "@/lib/store";
 
 const CATEGORIES = [
   { key: "TODOS", label: "Todos" },

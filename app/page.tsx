@@ -1,13 +1,13 @@
 "use client";
 
-import { Navbar } from "../components/layout/Navbar";
-import { Ticker } from "../components/layout/Ticker";
-import { BottomNav } from "../components/layout/BottomNav";
-import { NewsCard } from "../components/news/NewsCard";
+import { Navbar } from "@/components/layout/Navbar";
+import { Ticker } from "@/components/layout/Ticker";
+import { BottomNav } from "@/components/layout/BottomNav";
+import { NewsCard } from "@/components/news/NewsCard";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Article, getPublished } from "../lib/store";
-import { METRICS } from "../constants/market";
+import { Article, getPublished } from "@/lib/store";
+import { METRICS } from "@/constants/market";
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);

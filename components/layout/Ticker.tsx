@@ -1,5 +1,5 @@
 "use client";
-import { QUOTES } from "../../constants/market";
+import { QUOTES } from "@/constants/market";
 
 export function Ticker() {
   const items = [...QUOTES, ...QUOTES];

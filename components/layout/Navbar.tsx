@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { ThemeToggle } from "../ui/ThemeToggle";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export function Navbar() {
   return (
@@ -33,7 +33,7 @@ export function Navbar() {
         <div className="flex gap-2.5 items-center shrink-0">
           <ThemeToggle />
           <Link
-            href="/login"
+            href="/entrar"
             className="text-sm text-text-secondary no-underline px-3"
           >
             Entrar

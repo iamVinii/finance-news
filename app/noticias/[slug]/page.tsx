@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Navbar } from "../../../components/layout/Navbar";
-import { Ticker } from "../../../components/layout/Ticker";
-import { BottomNav } from "../../../components/layout/BottomNav";
-import { Article, getPublished } from "../../../lib/store";
+import { Navbar } from "@/components/layout/Navbar";
+import { Ticker } from "@/components/layout/Ticker";
+import { BottomNav } from "@/components/layout/BottomNav";
+import { Article, getPublished } from "@/lib/store";
 
 export default function ArticlePage() {
   const params = useParams();

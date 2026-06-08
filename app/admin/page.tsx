@@ -1,6 +1,6 @@
 "use client";
 
-import { useAdmin } from "../../hooks/useAdmin";
+import { useAdmin } from "@/hooks/useAdmin";
 
 export default function AdminPage() {
   const {

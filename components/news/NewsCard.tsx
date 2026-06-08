@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Article } from "../../types/article";
+import { Article } from "@/types/article";
 
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();

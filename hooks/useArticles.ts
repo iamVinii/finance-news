@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Article } from "../types/article";
-import { getPublished } from "../lib/store";
+import { Article } from "@/types/article";
+import { getPublished } from "@/lib/store";
 
 export function useArticles() {
   const [mounted, setMounted] = useState(false);

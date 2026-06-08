@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Article } from "../types/article";
-import { getDrafts, saveDrafts, addPublished, seedIfEmpty } from "../lib/store";
+import { Article } from "@/types/article";
+import { getDrafts, saveDrafts, addPublished, seedIfEmpty } from "@/lib/store";
 
 export function useAdmin() {
   const [mounted, setMounted] = useState(false);
