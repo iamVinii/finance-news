@@ -32,10 +32,11 @@ export function useAdmin() {
   }
 
   function publish(id: string) {
-    const found = drafts.find(d => d.id === id);
+    const current = getDrafts();
+    const found = current.find(d => d.id === id);
     if (!found) return;
     addPublished({ ...found, publishedAt: new Date().toISOString() });
-    const remaining = drafts.filter(d => d.id !== id);
+    const remaining = current.filter(d => d.id !== id);
     saveDrafts(remaining);
     setDrafts(remaining);
     setPublishedToday(p => p + 1);
@@ -45,7 +46,8 @@ export function useAdmin() {
   }
 
   function reject(id: string) {
-    const remaining = drafts.filter(d => d.id !== id);
+    const current = getDrafts();
+    const remaining = current.filter(d => d.id !== id);
     saveDrafts(remaining);
     setDrafts(remaining);
     setSelected(remaining[0] || null);
@@ -62,7 +64,7 @@ export function useAdmin() {
 
   function saveEdit(id: string) {
     const updated = drafts.map(d =>
-      d.id === id ? { ...d, title: editTitle, summary: editSummary } : d
+      d.id === id ? { ...d, title: editTitle, summary: editSummary, content: editContent } : d
     );
     saveDrafts(updated);
     setDrafts(updated);
