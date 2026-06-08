@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Navbar } from "../../components/layout/Navbar";
 import { Ticker } from "../../components/layout/Ticker";
 import { BottomNav } from "../../components/layout/BottomNav";
+import { NewsCard } from "../../components/news/NewsCard";
 import { Article, getPublished } from "../../lib/store";
 
 const CATEGORIES = [
@@ -43,34 +44,31 @@ export default function NoticiasPage() {
     : articles.filter(a => a.category === category);
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg-primary)" }}>
+    <div className="min-h-screen bg-primary">
       <Navbar />
       <Ticker />
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "36px 24px" }}>
+      <div className="max-w-[1200px] mx-auto px-6 py-9">
 
-        <div style={{ marginBottom: 28 }}>
-          <h1 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 32, fontWeight: 400, letterSpacing: "-0.5px", color: "var(--text-primary)", marginBottom: 6 }}>
+        <div className="mb-7">
+          <h1 className="font-display text-[32px] font-normal tracking-tight text-text-primary mb-1.5">
             Notícias
           </h1>
-          <p style={{ fontSize: 15, color: "var(--text-secondary)" }}>
+          <p className="text-[15px] text-text-secondary">
             Cobertura contínua do mercado financeiro brasileiro
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 8, marginBottom: 32, flexWrap: "wrap" }}>
+        <div className="flex gap-2 mb-8 flex-wrap">
           {CATEGORIES.map(cat => (
             <button
               key={cat.key}
               onClick={() => setCategory(cat.key)}
-              style={{
-                fontSize: 13, fontWeight: 500,
-                padding: "7px 16px", borderRadius: 20,
-                border: category === cat.key ? "0.5px solid var(--accent)" : "0.5px solid var(--border)",
-                background: category === cat.key ? "var(--accent-dim)" : "var(--bg-card)",
-                color: category === cat.key ? "var(--accent-text)" : "var(--text-secondary)",
-                cursor: "pointer", fontFamily: "inherit",
-              }}
+              className={`text-[13px] font-medium px-4 py-1.5 rounded-full border-[0.5px] cursor-pointer font-sans transition-all ${
+                category === cat.key
+                  ? "border-accent bg-accent-dim text-accent-text"
+                  : "border-border bg-card text-text-secondary hover:border-border-strong"
+              }`}
             >
               {cat.label}
             </button>
@@ -78,48 +76,47 @@ export default function NoticiasPage() {
         </div>
 
         {filtered.length === 0 ? (
-          <div style={{ background: "var(--bg-card)", border: "0.5px solid var(--border)", borderRadius: 12, padding: "48px 32px", textAlign: "center" }}>
-            <p style={{ fontSize: 32, marginBottom: 12 }}>📰</p>
-            <p style={{ fontSize: 16, fontWeight: 500, color: "var(--text-primary)", marginBottom: 8 }}>
+          <div className="bg-card border-[0.5px] border-border rounded-xl p-12 text-center">
+            <p className="text-[32px] mb-3">📰</p>
+            <p className="text-base font-medium text-text-primary mb-2">
               Nenhuma notícia publicada ainda
             </p>
-            <p style={{ fontSize: 14, color: "var(--text-secondary)", marginBottom: 20 }}>
+            <p className="text-sm text-text-secondary mb-5">
               Vá ao painel admin e publique os rascunhos.
             </p>
-            <a href="/admin" style={{ fontSize: 14, color: "var(--accent-text)", textDecoration: "none", border: "0.5px solid var(--accent)", borderRadius: 8, padding: "10px 24px" }}>
-              Ir para o painel admin →
+            
+             <a href="/admin"
+              className="text-sm text-accent-text no-underline border-[0.5px] border-accent rounded-lg px-6 py-2.5"
+            >
+              Ir para o painel admin &#8594;
             </a>
           </div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 14 }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
             {filtered.map(article => (
-              <div key={article.id} style={{
-                background: "var(--bg-card)", border: "0.5px solid var(--border)",
-                borderRadius: 12, padding: 20, cursor: "pointer",
-                transition: "border-color 0.2s",
-              }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--border-strong)")}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}
+              <div
+                key={article.id}
+                className="bg-card border-[0.5px] border-border rounded-xl p-5 cursor-pointer hover:border-border-strong transition-colors"
               >
-                <div style={{ display: "flex", gap: 6, marginBottom: 10, alignItems: "center" }}>
-                  <span style={{ fontSize: 11, fontWeight: 500, padding: "3px 10px", borderRadius: 20, background: "rgba(29,158,117,0.12)", color: "var(--accent-text)" }}>
+                <div className="flex gap-1.5 mb-2.5 items-center">
+                  <span className={`tag-${article.category} text-[11px] font-medium px-2.5 py-0.5 rounded-full`}>
                     {article.category.charAt(0) + article.category.slice(1).toLowerCase()}
                   </span>
                   {article.isPro && (
-                    <span style={{ fontSize: 10, fontWeight: 500, padding: "2px 8px", borderRadius: 20, background: "rgba(83,74,183,0.12)", color: "#534AB7" }}>
+                    <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-accent-dim text-accent-text">
                       Pro
                     </span>
                   )}
                 </div>
-                <h3 style={{ fontSize: 15, fontWeight: 500, lineHeight: 1.4, color: "var(--text-primary)", marginBottom: 8 }}>
+                <h3 className="text-[15px] font-medium leading-[1.4] text-text-primary mb-2">
                   {article.title}
                 </h3>
-                <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 12 }}>
+                <p className="text-[13px] text-text-secondary leading-relaxed mb-3">
                   {article.summary}
                 </p>
-                <div style={{ display: "flex", gap: 8 }}>
-                  <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{timeAgo(article.publishedAt)}</span>
-                  <span style={{ fontSize: 12, color: "var(--text-muted)" }}>· {article.readingTime} min</span>
+                <div className="flex gap-2">
+                  <span className="text-xs text-text-muted">{timeAgo(article.publishedAt)}</span>
+                  <span className="text-xs text-text-muted">· {article.readingTime} min</span>
                 </div>
               </div>
             ))}

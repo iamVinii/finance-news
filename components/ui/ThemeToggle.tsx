@@ -19,15 +19,11 @@ export function ThemeToggle() {
   }
 
   return (
-    <button onClick={toggle} aria-label="Alternar tema" style={{
-      width: 36, height: 36, borderRadius: 8,
-      border: "0.5px solid var(--border-strong)",
-      background: "var(--bg-secondary)",
-      color: "var(--text-secondary)",
-      cursor: "pointer", display: "flex",
-      alignItems: "center", justifyContent: "center",
-      fontSize: 16, flexShrink: 0,
-    }}>
+    <button
+      onClick={toggle}
+      aria-label="Alternar tema"
+      className="w-9 h-9 rounded-lg border-[0.5px] border-border-strong bg-secondary text-text-secondary cursor-pointer flex items-center justify-center text-base shrink-0"
+    >
       {theme === "dark" ? "☀" : "☾"}
     </button>
   );

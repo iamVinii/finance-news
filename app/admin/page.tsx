@@ -15,84 +15,73 @@ export default function AdminPage() {
   if (!mounted) return null;
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg-primary)", fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-screen bg-primary font-sans">
 
       {toast && (
-        <div style={{
-          position: "fixed", top: 16, right: 16, zIndex: 100,
-          background: toast.type === "success" ? "#1D9E75" : "#E24B4A",
-          color: "#fff", padding: "10px 20px", borderRadius: 8,
-          fontSize: 14, fontWeight: 500,
-        }}>
+        <div className={`fixed top-4 right-4 z-[100] px-5 py-2.5 rounded-lg text-sm font-medium text-white ${
+          toast.type === "success" ? "bg-accent" : "bg-danger"
+        }`}>
           {toast.type === "success" ? "✓" : "✕"} {toast.msg}
         </div>
       )}
 
-      <header style={{
-        background: "var(--bg-nav)", backdropFilter: "blur(12px)",
-        borderBottom: "0.5px solid var(--border)",
-        padding: "0 24px", height: 56,
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        position: "sticky", top: 0, zIndex: 50,
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: 18, color: "var(--text-primary)" }}>
-            Finance<span style={{ color: "var(--accent)" }}>News</span>
+      <header className="sticky top-0 z-50 bg-[var(--bg-nav)] backdrop-blur-md border-b-[0.5px] border-border px-6 h-14 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <span className="font-display text-lg text-text-primary">
+            Finance<span className="text-accent">News</span>
           </span>
-          <span style={{ fontSize: 11, fontWeight: 500, background: "var(--accent-dim)", color: "var(--accent-text)", padding: "3px 10px", borderRadius: 20 }}>
+          <span className="text-[11px] font-medium bg-accent-dim text-accent-text px-2.5 py-0.5 rounded-full">
             Painel Admin
           </span>
         </div>
-        <div style={{ display: "flex", gap: 20, fontSize: 13, color: "var(--text-secondary)" }}>
-          <span>📥 <strong style={{ color: "var(--text-primary)" }}>{drafts.length}</strong> aguardando</span>
-          <span>✅ <strong style={{ color: "var(--text-primary)" }}>{publishedToday}</strong> publicadas hoje</span>
-          <a href="/" style={{ color: "var(--accent-text)", textDecoration: "none" }}>← Ver site</a>
+        <div className="flex gap-5 text-[13px] text-text-secondary">
+          <span>📥 <strong className="text-text-primary">{drafts.length}</strong> aguardando</span>
+          <span>✅ <strong className="text-text-primary">{publishedToday}</strong> publicadas hoje</span>
+          <a href="/" className="text-accent-text no-underline">&#8592; Ver site</a>
         </div>
       </header>
 
-      <div style={{ display: "flex", height: "calc(100vh - 56px)" }}>
+      <div className="flex h-[calc(100vh-56px)]">
 
-        <div style={{ width: 320, flexShrink: 0, borderRight: "0.5px solid var(--border)", overflowY: "auto", background: "var(--bg-secondary)" }}>
-          <div style={{ padding: "16px 16px 8px" }}>
-            <p style={{ fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-muted)" }}>
+        {/* Lista de rascunhos */}
+        <div className="w-80 shrink-0 border-r-[0.5px] border-border overflow-y-auto bg-secondary">
+          <div className="px-4 py-4 pb-2">
+            <p className="text-[11px] tracking-widest uppercase text-text-muted">
               Rascunhos para revisar
             </p>
           </div>
 
           {drafts.length === 0 ? (
-            <div style={{ padding: 32, textAlign: "center" }}>
-              <p style={{ fontSize: 32, marginBottom: 8 }}>✅</p>
-              <p style={{ fontSize: 14, color: "var(--text-secondary)" }}>Tudo revisado por hoje!</p>
-              <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>Novos rascunhos chegam às 12h e 18h.</p>
+            <div className="p-8 text-center">
+              <p className="text-[32px] mb-2">✅</p>
+              <p className="text-sm text-text-secondary">Tudo revisado por hoje!</p>
+              <p className="text-xs text-text-muted mt-1">Novos rascunhos chegam às 12h e 18h.</p>
             </div>
           ) : (
             drafts.map(draft => (
               <div
                 key={draft.id}
                 onClick={() => selectDraft(draft)}
-                style={{
-                  padding: "14px 16px",
-                  borderBottom: "0.5px solid var(--border)",
-                  cursor: "pointer",
-                  background: selected?.id === draft.id ? "var(--bg-card)" : "transparent",
-                  borderLeft: selected?.id === draft.id ? "3px solid var(--accent)" : "3px solid transparent",
-                  transition: "all 0.15s",
-                }}
+                className={`px-4 py-3.5 border-b-[0.5px] border-border cursor-pointer transition-all ${
+                  selected?.id === draft.id
+                    ? "bg-card border-l-[3px] border-l-accent"
+                    : "border-l-[3px] border-l-transparent hover:bg-card/50"
+                }`}
               >
-                <div style={{ display: "flex", gap: 6, marginBottom: 6, alignItems: "center" }}>
-                  <span style={{ fontSize: 10, fontWeight: 500, padding: "2px 8px", borderRadius: 20, background: "rgba(29,158,117,0.12)", color: "var(--accent-text)" }}>
+                <div className="flex gap-1.5 mb-1.5 items-center">
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-accent-dim text-accent-text">
                     {draft.category}
                   </span>
                   {draft.isPro && (
-                    <span style={{ fontSize: 10, fontWeight: 500, padding: "2px 8px", borderRadius: 20, background: "rgba(83,74,183,0.12)", color: "#534AB7" }}>
+                    <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[rgba(83,74,183,0.12)] text-[#534AB7]">
                       Pro
                     </span>
                   )}
-                  <span style={{ fontSize: 11, color: "var(--text-muted)", marginLeft: "auto" }}>
+                  <span className="text-[11px] text-text-muted ml-auto">
                     {timeAgo(draft.createdAt)}
                   </span>
                 </div>
-                <p style={{ fontSize: 13, fontWeight: 500, lineHeight: 1.4, color: "var(--text-primary)" }}>
+                <p className="text-[13px] font-medium leading-[1.4] text-text-primary">
                   {draft.title}
                 </p>
               </div>
@@ -100,18 +89,19 @@ export default function AdminPage() {
           )}
         </div>
 
+        {/* Preview e ações */}
         {selected ? (
-          <div style={{ flex: 1, overflowY: "auto", padding: "24px 32px" }}>
-            <div style={{ display: "flex", gap: 8, marginBottom: 16, alignItems: "center" }}>
-              <span style={{ fontSize: 11, fontWeight: 500, padding: "3px 10px", borderRadius: 20, background: "rgba(29,158,117,0.12)", color: "var(--accent-text)" }}>
+          <div className="flex-1 overflow-y-auto px-8 py-6">
+            <div className="flex gap-2 mb-4 items-center">
+              <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-accent-dim text-accent-text">
                 {selected.category}
               </span>
               {selected.isPro && (
-                <span style={{ fontSize: 11, fontWeight: 500, padding: "3px 10px", borderRadius: 20, background: "rgba(83,74,183,0.12)", color: "#534AB7" }}>
+                <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[rgba(83,74,183,0.12)] text-[#534AB7]">
                   🔒 Pro
                 </span>
               )}
-              <span style={{ fontSize: 12, color: "var(--text-muted)" }}>
+              <span className="text-xs text-text-muted">
                 {selected.readingTime} min · Gerado {timeAgo(selected.createdAt)}
               </span>
             </div>
@@ -120,73 +110,81 @@ export default function AdminPage() {
               <textarea
                 value={editTitle}
                 onChange={e => setEditTitle(e.target.value)}
-                style={{ width: "100%", fontSize: 22, fontWeight: 500, lineHeight: 1.3, color: "var(--text-primary)", background: "var(--bg-secondary)", border: "0.5px solid var(--accent)", borderRadius: 8, padding: "10px 14px", fontFamily: "inherit", resize: "none", marginBottom: 12, outline: "none" }}
+                className="w-full text-[22px] font-medium leading-[1.3] text-text-primary bg-secondary border-[0.5px] border-accent rounded-lg p-3.5 font-sans resize-none mb-3 outline-none"
                 rows={3}
               />
             ) : (
-              <h1 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 26, fontWeight: 400, lineHeight: 1.3, color: "var(--text-primary)", marginBottom: 12 }}>
+              <h1 className="font-display text-[26px] font-normal leading-[1.3] text-text-primary mb-3">
                 {selected.title}
               </h1>
             )}
 
-            <div style={{ background: "var(--bg-secondary)", border: "0.5px solid var(--border)", borderRadius: 8, padding: "12px 16px", marginBottom: 20 }}>
-              <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 6 }}>RESUMO PÚBLICO</p>
+            <div className="bg-secondary border-[0.5px] border-border rounded-lg p-4 mb-5">
+              <p className="text-[11px] text-text-muted mb-1.5">RESUMO PÚBLICO</p>
               {editMode ? (
                 <textarea
                   value={editSummary}
                   onChange={e => setEditSummary(e.target.value)}
-                  style={{ width: "100%", fontSize: 14, lineHeight: 1.5, color: "var(--text-primary)", background: "var(--bg-card)", border: "0.5px solid var(--accent)", borderRadius: 6, padding: "8px 10px", fontFamily: "inherit", resize: "none", outline: "none" }}
+                  className="w-full text-sm leading-relaxed text-text-primary bg-card border-[0.5px] border-accent rounded-md p-2.5 font-sans resize-none outline-none"
                   rows={3}
                 />
               ) : (
-                <p style={{ fontSize: 14, lineHeight: 1.5, color: "var(--text-secondary)" }}>{selected.summary}</p>
+                <p className="text-sm leading-relaxed text-text-secondary">{selected.summary}</p>
               )}
             </div>
 
-           <div style={{ marginBottom: 100 }}>
-  <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 12 }}>CONTEÚDO COMPLETO</p>
-  {editMode ? (
-    <textarea
-      value={editContent}
-      onChange={e => setEditContent(e.target.value)}
-      style={{
-        width: "100%", fontSize: 15, lineHeight: 1.75,
-        color: "var(--text-primary)", background: "var(--bg-secondary)",
-        border: "0.5px solid var(--accent)", borderRadius: 8,
-        padding: "14px", fontFamily: "inherit",
-        resize: "vertical", outline: "none",
-        minHeight: 300,
-      }}
-      rows={12}
-    />
-  ) : (
-    selected.content.split("\n\n").map((para, i) => (
-      <p key={i} style={{ fontSize: 15, lineHeight: 1.75, color: "var(--text-primary)", marginBottom: 16 }}>
-        {para}
-      </p>
-    ))
-  )}
-</div>
+            <div className="mb-24">
+              <p className="text-[11px] text-text-muted mb-3">CONTEÚDO COMPLETO</p>
+              {editMode ? (
+                <textarea
+                  value={editContent}
+                  onChange={e => setEditContent(e.target.value)}
+                  className="w-full text-[15px] leading-[1.75] text-text-primary bg-secondary border-[0.5px] border-accent rounded-lg p-3.5 font-sans resize-y outline-none min-h-[300px]"
+                  rows={12}
+                />
+              ) : (
+                selected.content.split("\n\n").map((para, i) => (
+                  <p key={i} className="text-[15px] leading-[1.75] text-text-primary mb-4">
+                    {para}
+                  </p>
+                ))
+              )}
+            </div>
 
-            <div style={{ position: "sticky", bottom: 0, background: "var(--bg-primary)", borderTop: "0.5px solid var(--border)", padding: "16px 0", display: "flex", gap: 10 }}>
+            <div className="sticky bottom-0 bg-primary border-t-[0.5px] border-border py-4 flex gap-2.5">
               {editMode ? (
                 <>
-                  <button onClick={() => saveEdit(selected.id)} style={{ flex: 1, padding: "12px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", fontSize: 14, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" }}>
+                  <button
+                    onClick={() => saveEdit(selected.id)}
+                    className="flex-1 py-3 rounded-lg bg-accent text-white border-none text-sm font-medium cursor-pointer font-sans hover:opacity-90 transition-opacity"
+                  >
                     ✓ Salvar edições
                   </button>
-                  <button onClick={cancelEdit} style={{ padding: "12px 20px", borderRadius: 8, background: "transparent", color: "var(--text-secondary)", border: "0.5px solid var(--border)", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>
+                  <button
+                    onClick={cancelEdit}
+                    className="px-5 py-3 rounded-lg bg-transparent text-text-secondary border-[0.5px] border-border text-sm cursor-pointer font-sans"
+                  >
                     Cancelar
                   </button>
                 </>
               ) : (
                 <>
-                  <button onClick={() => publish(selected.id)} style={{ flex: 2, padding: "12px", borderRadius: 8, background: "var(--accent)", color: "#fff", border: "none", fontSize: 14, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" }}>
+                  <button
+                    onClick={() => publish(selected.id)}
+                    className="flex-[2] py-3 rounded-lg bg-accent text-white border-none text-sm font-medium cursor-pointer font-sans hover:opacity-90 transition-opacity"
+                  >
                     ✓ Publicar agora
                   </button>
-                  <button onClick={() => startEdit(selected)} style={{ flex: 1, padding: "12px", borderRadius: 8, background: "var(--bg-secondary)", color: "var(--text-primary)", border: "0.5px solid var(--border)", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>
+                  <button
+                    onClick={() => startEdit(selected)}
+                    className="flex-1 py-3 rounded-lg bg-secondary text-text-primary border-[0.5px] border-border text-sm cursor-pointer font-sans"
+                  >
                     ✏ Editar
                   </button>
-                  <button onClick={() => reject(selected.id)} style={{ padding: "12px 20px", borderRadius: 8, background: "transparent", color: "#E24B4A", border: "0.5px solid #E24B4A", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>
+                  <button
+                    onClick={() => reject(selected.id)}
+                    className="px-5 py-3 rounded-lg bg-transparent text-danger border-[0.5px] border-danger text-sm cursor-pointer font-sans"
+                  >
                     ✕ Rejeitar
                   </button>
                 </>
@@ -194,9 +192,9 @@ export default function AdminPage() {
             </div>
           </div>
         ) : (
-          <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 8 }}>
-            <p style={{ fontSize: 32 }}>📋</p>
-            <p style={{ fontSize: 15, color: "var(--text-secondary)" }}>Selecione um rascunho para revisar</p>
+          <div className="flex-1 flex items-center justify-center flex-col gap-2">
+            <p className="text-[32px]">📋</p>
+            <p className="text-[15px] text-text-secondary">Selecione um rascunho para revisar</p>
           </div>
         )}
       </div>

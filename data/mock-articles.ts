@@ -4,7 +4,7 @@ export function getMockDrafts(): Article[] {
   const now = Date.now();
   return [
     {
-      id: "d1",
+      id: `draft-1-${Date.now()}`,
       slug: "banco-central-mantem-selic-e-sinaliza-cautela-para-proxima-reuniao",
       title: "Banco Central mantém Selic e sinaliza cautela para próxima reunião",
       summary: "A decisão unânime surpreendeu parte do mercado que esperava algum sinal de mudança na trajetória dos juros.",
@@ -13,7 +13,7 @@ export function getMockDrafts(): Article[] {
       publishedAt: "", createdAt: new Date(now - 25 * 60000).toISOString(),
     },
     {
-      id: "d2",
+      id: `draft-2-${Date.now() + 1}`,
       slug: "ibge-divulga-ipca-de-abril-acima-das-expectativas-do-mercado",
       title: "IBGE divulga IPCA de abril acima das expectativas do mercado",
       summary: "O índice registrou alta de 0,61% no mês, puxado principalmente pelo grupo de alimentação e habitação.",
@@ -22,7 +22,7 @@ export function getMockDrafts(): Article[] {
       publishedAt: "", createdAt: new Date(now - 55 * 60000).toISOString(),
     },
     {
-      id: "d3",
+      id: `draft-3-${Date.now() + 2}`,
       slug: "cvm-aprova-novas-regras-para-fundos-de-investimento-em-criptoativos",
       title: "CVM aprova novas regras para fundos de investimento em criptoativos",
       summary: "A resolução estabelece requisitos mínimos de transparência e gestão de risco para fundos que investem em Bitcoin.",
@@ -31,7 +31,7 @@ export function getMockDrafts(): Article[] {
       publishedAt: "", createdAt: new Date(now - 90 * 60000).toISOString(),
     },
     {
-      id: "d4",
+      id: `draft-4-${Date.now() + 3}`,
       slug: "petrobras-anuncia-dividendos-extraordinarios-para-o-segundo-trimestre",
       title: "Petrobras anuncia dividendos extraordinários para o segundo trimestre",
       summary: "A distribuição será de R$ 0,89 por ação, totalizando aproximadamente R$ 11,5 bilhões aos acionistas.",

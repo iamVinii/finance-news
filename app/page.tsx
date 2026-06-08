@@ -3,61 +3,11 @@
 import { Navbar } from "../components/layout/Navbar";
 import { Ticker } from "../components/layout/Ticker";
 import { BottomNav } from "../components/layout/BottomNav";
+import { NewsCard } from "../components/news/NewsCard";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Article, getPublished } from "../lib/store";
 import { METRICS } from "../constants/market";
-
-function timeAgo(dateStr: string) {
-  const mins = Math.floor((Date.now() - new Date(dateStr).getTime()) / 60000);
-  if (mins < 60) return `Há ${mins} min`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `Há ${hrs}h`;
-  return `Há ${Math.floor(hrs / 24)}d`;}
-
-function NewsItem({ article, variant }: { article: Article; variant: "main" | "side" | "small" }) {
-  const tag = (
-    <span style={{
-      display: "inline-block", fontSize: 11, fontWeight: 500,
-      padding: "3px 10px", borderRadius: 20, marginBottom: 8,
-      background: "rgba(29,158,117,0.12)", color: "var(--accent-text)",
-    }}>
-      {article.category.charAt(0) + article.category.slice(1).toLowerCase()}
-    </span>
-  );
-
-  if (variant === "main") return (
-    <div style={{
-      background: "var(--bg-card)", border: "0.5px solid var(--border)",
-      borderRadius: 12, padding: "28px 24px 24px", minHeight: 260,
-      display: "flex", flexDirection: "column", justifyContent: "flex-end",
-      position: "relative", overflow: "hidden", cursor: "pointer",
-    }}>
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "var(--accent)" }} />
-      {tag}
-      <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, fontWeight: 400, lineHeight: 1.35, color: "var(--text-primary)", marginBottom: 8 }}>
-        {article.title}
-      </h2>
-      <p style={{ fontSize: 12, color: "var(--text-muted)" }}>{timeAgo(article.publishedAt)} · {article.readingTime} min</p>
-    </div>
-  );
-
-  if (variant === "small") return (
-    <div style={{ background: "var(--bg-card)", border: "0.5px solid var(--border)", borderRadius: 10, padding: "14px 16px", cursor: "pointer" }}>
-      {tag}
-      <p style={{ fontSize: 13, fontWeight: 500, lineHeight: 1.4, color: "var(--text-primary)", marginBottom: 4 }}>{article.title}</p>
-      <p style={{ fontSize: 12, color: "var(--text-muted)" }}>{timeAgo(article.publishedAt)}</p>
-    </div>
-  );
-
-  return (
-    <div style={{ padding: "0 0 14px", cursor: "pointer" }}>
-      {tag}
-      <p style={{ fontSize: 14, fontWeight: 500, lineHeight: 1.4, color: "var(--text-primary)", marginBottom: 4 }}>{article.title}</p>
-      <p style={{ fontSize: 12, color: "var(--text-muted)" }}>{timeAgo(article.publishedAt)}</p>
-    </div>
-  );
-}
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -68,8 +18,6 @@ export default function HomePage() {
   useEffect(() => {
     setArticles(getPublished());
     setMounted(true);
-
-    // Atualiza quando voltar para a aba
     const onFocus = () => setArticles(getPublished());
     window.addEventListener("focus", onFocus);
     return () => window.removeEventListener("focus", onFocus);
@@ -82,54 +30,54 @@ export default function HomePage() {
   if (!mounted) return null;
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg-primary)" }}>
+    <div className="min-h-screen bg-primary">
       <Navbar />
       <Ticker />
 
-      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "36px 24px 0" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
-          <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#E24B4A", display: "inline-block" }} />
-          <span style={{ fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-muted)" }}>Agora no mercado</span>
+      {/* Notícias em destaque */}
+      <section className="max-w-[1200px] mx-auto px-6 pt-9">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="w-[7px] h-[7px] rounded-full bg-danger inline-block" />
+          <span className="text-[11px] tracking-widest uppercase text-text-muted">
+            Agora no mercado
+          </span>
         </div>
 
         {articles.length === 0 ? (
-          <div style={{
-            background: "var(--bg-card)", border: "0.5px solid var(--border)",
-            borderRadius: 12, padding: "48px 32px", textAlign: "center", marginBottom: 32,
-          }}>
-            <p style={{ fontSize: 32, marginBottom: 12 }}>📰</p>
-            <p style={{ fontSize: 16, fontWeight: 500, color: "var(--text-primary)", marginBottom: 8 }}>
+          <div className="bg-card border-[0.5px] border-border rounded-xl p-12 text-center mb-8">
+            <p className="text-[32px] mb-3">📰</p>
+            <p className="text-base font-medium text-text-primary mb-2">
               Nenhuma notícia publicada ainda
             </p>
-            <p style={{ fontSize: 14, color: "var(--text-secondary)", marginBottom: 20 }}>
+            <p className="text-sm text-text-secondary mb-5">
               Vá ao painel admin, aprove os rascunhos e eles aparecerão aqui.
             </p>
-            <a href="/admin" style={{
-              fontSize: 14, color: "var(--accent-text)", textDecoration: "none",
-              border: "0.5px solid var(--accent)", borderRadius: 8, padding: "10px 24px",
-            }}>
-              Ir para o painel admin →
+            
+              <a href="/admin"
+              className="text-sm text-accent-text no-underline border-[0.5px] border-accent rounded-lg px-6 py-2.5"
+            >
+              Ir para o painel admin &#8594;
             </a>
           </div>
         ) : (
           <>
             {featured && (
-              <div style={{ display: "grid", gridTemplateColumns: sideArticles.length > 0 ? "2fr 1fr 1fr" : "1fr", gap: 14, marginBottom: 14 }}>
-                <NewsItem article={featured} variant="main" />
+              <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] gap-3.5 mb-3.5">
+                <NewsCard article={featured} variant="main" />
                 {sideArticles.length >= 2 && (
-                  <div style={{ background: "var(--bg-card)", border: "0.5px solid var(--border)", borderRadius: 12, padding: 20 }}>
+                  <div className="bg-card border-[0.5px] border-border rounded-xl p-5">
                     {sideArticles.slice(0, 2).map((a, i) => (
-                      <div key={a.id} style={{ borderBottom: i === 0 ? "0.5px solid var(--border)" : "none" }}>
-                        <NewsItem article={a} variant="side" />
+                      <div key={a.id} className={i === 0 ? "border-b-[0.5px] border-border" : ""}>
+                        <NewsCard article={a} variant="side" />
                       </div>
                     ))}
                   </div>
                 )}
                 {sideArticles.length >= 4 && (
-                  <div style={{ background: "var(--bg-card)", border: "0.5px solid var(--border)", borderRadius: 12, padding: 20 }}>
+                  <div className="bg-card border-[0.5px] border-border rounded-xl p-5">
                     {sideArticles.slice(2, 4).map((a, i) => (
-                      <div key={a.id} style={{ borderBottom: i === 0 ? "0.5px solid var(--border)" : "none" }}>
-                        <NewsItem article={a} variant="side" />
+                      <div key={a.id} className={i === 0 ? "border-b-[0.5px] border-border" : ""}>
+                        <NewsCard article={a} variant="side" />
                       </div>
                     ))}
                   </div>
@@ -138,84 +86,113 @@ export default function HomePage() {
             )}
 
             {smallArticles.length > 0 && (
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 32 }}>
-                {smallArticles.map(a => <NewsItem key={a.id} article={a} variant="small" />)}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+                {smallArticles.map(a => (
+                  <NewsCard key={a.id} article={a} variant="small" />
+                ))}
               </div>
             )}
           </>
         )}
 
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 48 }}>
-          <Link href="/noticias" style={{
-            fontSize: 14, color: "var(--accent-text)", textDecoration: "none",
-            border: "0.5px solid var(--accent)", borderRadius: 8, padding: "10px 28px",
-          }}>
-            Ver todas as notícias →
+        <div className="flex justify-center mb-12">
+          <Link
+            href="/noticias"
+            className="text-sm text-accent-text no-underline border-[0.5px] border-accent rounded-lg px-7 py-2.5 hover:bg-accent-dim transition-colors"
+          >
+            Ver todas as notícias &#8594;
           </Link>
         </div>
       </section>
 
-      <div style={{ borderTop: "0.5px solid var(--border)", margin: "0 24px" }} />
+      <div className="border-t-[0.5px] border-border mx-6" />
 
-      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 24px" }}>
-        <p style={{ fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 14 }}>Mercado agora</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 10 }}>
+      {/* Indicadores */}
+      <section className="max-w-[1200px] mx-auto px-6 py-10">
+        <p className="text-[11px] tracking-widest uppercase text-text-muted mb-3.5">
+          Mercado agora
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5">
           {METRICS.map(m => (
-            <div key={m.name} style={{ background: "var(--bg-secondary)", border: "0.5px solid var(--border)", borderRadius: 10, padding: "14px 16px" }}>
-              <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6 }}>{m.name}</p>
-              <p style={{ fontSize: 19, fontWeight: 500, color: "var(--text-primary)" }}>{m.value}</p>
-              <p style={{ fontSize: 12, marginTop: 2, color: m.neutral ? "var(--text-muted)" : m.up ? "var(--accent)" : "var(--danger)" }}>{m.change}</p>
+            <div key={m.name} className="bg-secondary border-[0.5px] border-border rounded-xl p-4">
+              <p className="text-xs text-text-muted mb-1.5">{m.name}</p>
+              <p className="text-[19px] font-medium text-text-primary tracking-tight">{m.value}</p>
+              <p className={`text-xs mt-0.5 ${m.neutral ? "text-text-muted" : m.up ? "text-accent" : "text-danger"}`}>
+                {m.change}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      <div style={{ borderTop: "0.5px solid var(--border)", margin: "0 24px" }} />
+      <div className="border-t-[0.5px] border-border mx-6" />
 
-      <section style={{ background: "var(--bg-secondary)", borderTop: "0.5px solid var(--border)", borderBottom: "0.5px solid var(--border)", padding: "64px 24px", textAlign: "center" }}>
-        <div style={{ maxWidth: 520, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 34, fontWeight: 400, lineHeight: 1.2, color: "var(--text-primary)", marginBottom: 12, letterSpacing: "-0.5px" }}>
+      {/* Newsletter */}
+      <section className="bg-secondary border-y-[0.5px] border-border py-16 px-6 text-center">
+        <div className="max-w-[520px] mx-auto">
+          <h2 className="font-display text-[34px] font-normal leading-[1.2] text-text-primary mb-3 tracking-tight">
             Entenda o mercado.<br />
-            <em style={{ color: "var(--accent)", fontStyle: "italic" }}>Tome decisões melhores.</em>
+            <em className="text-accent not-italic">Tome decisões melhores.</em>
           </h2>
-          <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.6, marginBottom: 28 }}>
+          <p className="text-base text-text-secondary leading-relaxed mb-7">
             Notícias, análises e indicadores — claros, diretos e gratuitos para começar.
           </p>
-          <div style={{ background: "var(--bg-card)", border: "0.5px solid var(--border)", borderRadius: 12, padding: "20px 24px", marginBottom: 12 }}>
-            <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 10 }}>✉ Resumo diário no seu e-mail</p>
+          <div className="bg-card border-[0.5px] border-border rounded-xl p-5 mb-3">
+            <p className="text-[13px] text-text-muted mb-2.5">✉ Resumo diário no seu e-mail</p>
             {submitted ? (
-              <p style={{ fontSize: 15, color: "var(--accent-text)", fontWeight: 500 }}>✓ Ótimo! Você receberá a newsletter amanhã cedo.</p>
+              <p className="text-[15px] text-accent-text font-medium">
+                ✓ Ótimo! Você receberá a newsletter amanhã cedo.
+              </p>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} style={{ display: "flex", gap: 8 }} className="email-row">
-                <input type="email" placeholder="seu@email.com" value={email} onChange={e => setEmail(e.target.value)} required
-                  style={{ flex: 1, padding: "10px 14px", borderRadius: 8, border: "0.5px solid var(--border-strong)", background: "var(--bg-secondary)", color: "var(--text-primary)", fontSize: 14, fontFamily: "inherit", outline: "none" }} />
-                <button type="submit" style={{ background: "var(--accent)", color: "#fff", border: "none", borderRadius: 8, padding: "10px 20px", fontSize: 14, fontWeight: 500, cursor: "pointer", fontFamily: "inherit", whiteSpace: "nowrap" }}>
+              <form
+                onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
+                className="flex flex-col sm:flex-row gap-2"
+              >
+                <input
+                  type="email"
+                  placeholder="seu@email.com"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  required
+                  className="flex-1 px-3.5 py-2.5 rounded-lg border-[0.5px] border-border-strong bg-secondary text-text-primary text-sm font-sans outline-none"
+                />
+                <button
+                  type="submit"
+                  className="bg-accent text-white border-none rounded-lg px-5 py-2.5 text-sm font-medium cursor-pointer font-sans whitespace-nowrap hover:opacity-90 transition-opacity"
+                >
                   Quero receber
                 </button>
               </form>
             )}
           </div>
-          <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Gratuito, sem spam.</p>
+          <p className="text-xs text-text-muted">Gratuito, sem spam.</p>
         </div>
       </section>
 
-      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 24px" }}>
-        <p style={{ fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 8 }}>O que você acessa</p>
-        <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 28, fontWeight: 400, color: "var(--text-primary)", marginBottom: 28, letterSpacing: "-0.5px" }}>
+      {/* Freemium */}
+      <section className="max-w-[1200px] mx-auto px-6 py-14">
+        <p className="text-[11px] tracking-widest uppercase text-text-muted mb-2">
+          O que você acessa
+        </p>
+        <h2 className="font-display text-[28px] font-normal text-text-primary mb-7 tracking-tight">
           Comece grátis, expanda quando quiser
         </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14 }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
           {[
             { icon: "📰", title: "Notícias do dia", desc: "Cobertura contínua dos principais eventos do mercado.", pro: false },
             { icon: "📊", title: "Indicadores ao vivo", desc: "IBOV, câmbio, Selic, IPCA atualizados em tempo real.", pro: false },
             { icon: "✉️", title: "Newsletter diária", desc: "O resumo mais importante direto no seu e-mail.", pro: false },
             { icon: "🔍", title: "Análises exclusivas", desc: "Relatórios aprofundados e alertas personalizados.", pro: true },
           ].map(card => (
-            <div key={card.title} style={{ background: "var(--bg-card)", border: "0.5px solid var(--border)", borderRadius: 12, padding: 20 }}>
-              <div style={{ fontSize: 24, marginBottom: 14 }}>{card.icon}</div>
-              <h3 style={{ fontSize: 15, fontWeight: 500, color: "var(--text-primary)", marginBottom: 6 }}>{card.title}</h3>
-              <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5 }}>{card.desc}</p>
-              <span style={{ display: "inline-block", marginTop: 12, fontSize: 11, fontWeight: 500, padding: "2px 10px", borderRadius: 20, background: card.pro ? "var(--accent-dim)" : "rgba(99,153,34,0.12)", color: card.pro ? "var(--accent-text)" : "#3B6D11" }}>
+            <div key={card.title} className="bg-card border-[0.5px] border-border rounded-xl p-5">
+              <div className="text-2xl mb-3.5">{card.icon}</div>
+              <h3 className="text-[15px] font-medium text-text-primary mb-1.5">{card.title}</h3>
+              <p className="text-[13px] text-text-secondary leading-relaxed">{card.desc}</p>
+              <span className={`inline-block mt-3 text-[11px] font-medium px-2.5 py-0.5 rounded-full ${
+                card.pro
+                  ? "bg-accent-dim text-accent-text"
+                  : "bg-[rgba(99,153,34,0.12)] text-[#3B6D11]"
+              }`}>
                 {card.pro ? "Finance News Pro" : "Grátis"}
               </span>
             </div>
@@ -223,11 +200,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      <footer style={{ borderTop: "0.5px solid var(--border)", padding: "24px", display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: 1200, margin: "0 auto" }}>
-        <span style={{ fontSize: 13, color: "var(--text-muted)" }}>© 2025 FinanceNews</span>
-        <div style={{ display: "flex", gap: 20 }}>
-          {["Privacidade","Termos","Newsletter","Contato"].map(l => (
-            <Link key={l} href={`/${l.toLowerCase()}`} style={{ fontSize: 13, color: "var(--text-muted)", textDecoration: "none" }}>{l}</Link>
+      {/* Footer */}
+      <footer className="border-t-[0.5px] border-border px-6 py-6 flex flex-col sm:flex-row justify-between items-center gap-3 max-w-[1200px] mx-auto">
+        <span className="text-[13px] text-text-muted">© 2025 FinanceNews</span>
+        <div className="flex gap-5">
+          {["Privacidade", "Termos", "Newsletter", "Contato"].map(l => (
+            <Link key={l} href={`/${l.toLowerCase()}`} className="text-[13px] text-text-muted no-underline hover:text-text-secondary transition-colors">
+              {l}
+            </Link>
           ))}
         </div>
       </footer>

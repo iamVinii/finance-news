@@ -12,33 +12,29 @@ function timeAgo(dateStr: string): string {
 
 export function NewsCard({ article, variant = "side" }: { article: Article; variant?: "main" | "side" | "small" }) {
   const tag = (
-    <span className={`tag-${article.category}`} style={{
-      display: "inline-block", fontSize: 11, fontWeight: 500,
-      padding: "3px 10px", borderRadius: 20, marginBottom: 8,
-    }}>
+    <span className={`tag-${article.category} inline-block text-[11px] font-medium px-2.5 py-0.5 rounded-full mb-2`}>
       {article.category.charAt(0) + article.category.slice(1).toLowerCase()}
     </span>
   );
 
   const meta = (
-    <div style={{ display: "flex", gap: 8, marginTop: 6 }}>
-      <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{timeAgo(article.publishedAt)}</span>
-      <span style={{ fontSize: 12, color: "var(--text-muted)" }}>· {article.readingTime} min</span>
-      {article.isPro && <span style={{ fontSize: 10, fontWeight: 500, background: "var(--accent-dim)", color: "var(--accent-text)", padding: "1px 7px", borderRadius: 20 }}>Pro</span>}
+    <div className="flex items-center gap-2 mt-1.5">
+      <span className="text-xs text-text-muted">{timeAgo(article.publishedAt)}</span>
+      <span className="text-xs text-text-muted">· {article.readingTime} min</span>
+      {article.isPro && (
+        <span className="text-[10px] font-medium bg-accent-dim text-accent-text px-1.5 py-0.5 rounded-full">
+          Pro
+        </span>
+      )}
     </div>
   );
 
   if (variant === "main") return (
-    <Link href={`/noticias/${article.slug}`} style={{ textDecoration: "none" }}>
-      <div style={{
-        background: "var(--bg-card)", border: "0.5px solid var(--border)",
-        borderRadius: 12, padding: "28px 24px 24px", minHeight: 260,
-        display: "flex", flexDirection: "column", justifyContent: "flex-end",
-        position: "relative", overflow: "hidden", cursor: "pointer",
-      }}>
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "var(--accent)" }} />
+    <Link href={`/noticias/${article.slug}`} className="no-underline">
+      <div className="bg-card border-[0.5px] border-border rounded-xl p-7 min-h-[260px] flex flex-col justify-end relative overflow-hidden cursor-pointer hover:border-accent transition-colors">
+        <div className="absolute top-0 left-0 right-0 h-[3px] bg-accent rounded-t-xl" />
         {tag}
-        <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, fontWeight: 400, lineHeight: 1.35, color: "var(--text-primary)" }}>
+        <h2 className="font-display text-[22px] font-normal leading-[1.35] text-text-primary">
           {article.title}
         </h2>
         {meta}
@@ -47,13 +43,10 @@ export function NewsCard({ article, variant = "side" }: { article: Article; vari
   );
 
   if (variant === "small") return (
-    <Link href={`/noticias/${article.slug}`} style={{ textDecoration: "none" }}>
-      <div style={{
-        background: "var(--bg-card)", border: "0.5px solid var(--border)",
-        borderRadius: 10, padding: "14px 16px", cursor: "pointer",
-      }}>
+    <Link href={`/noticias/${article.slug}`} className="no-underline">
+      <div className="bg-card border-[0.5px] border-border rounded-xl p-4 cursor-pointer hover:border-border-strong transition-colors">
         {tag}
-        <h4 style={{ fontSize: 13, fontWeight: 500, lineHeight: 1.4, color: "var(--text-primary)" }}>
+        <h4 className="text-[13px] font-medium leading-[1.4] text-text-primary">
           {article.title}
         </h4>
         {meta}
@@ -62,10 +55,10 @@ export function NewsCard({ article, variant = "side" }: { article: Article; vari
   );
 
   return (
-    <Link href={`/noticias/${article.slug}`} style={{ textDecoration: "none" }}>
-      <div style={{ padding: "0 0 14px", cursor: "pointer" }}>
+    <Link href={`/noticias/${article.slug}`} className="no-underline">
+      <div className="pb-3.5 cursor-pointer">
         {tag}
-        <h4 style={{ fontSize: 14, fontWeight: 500, lineHeight: 1.4, color: "var(--text-primary)" }}>
+        <h4 className="text-sm font-medium leading-[1.4] text-text-primary">
           {article.title}
         </h4>
         {meta}

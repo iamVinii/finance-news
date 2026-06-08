@@ -39,7 +39,9 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 html { scroll-behavior: smooth; }
+
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--bg-primary);
@@ -52,14 +54,16 @@ body {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-.ticker-track { animation: ticker 40s linear infinite; }
-.ticker-track:hover { animation-play-state: paused; }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+.ticker-track {
+  animation: ticker 40s linear infinite;
 }
 
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Tags de categoria */
 .tag-MACROECONOMIA { background: rgba(55,138,221,0.12); color: #185FA5; }
 .tag-CAMBIO        { background: rgba(29,158,117,0.12); color: #0F6E56; }
 .tag-BOLSA         { background: rgba(29,158,117,0.12); color: #0F6E56; }
@@ -77,86 +81,3 @@ body {
 [data-theme="dark"] .tag-FISCAL        { background: rgba(226,75,74,0.15);  color: #F09595; }
 [data-theme="dark"] .tag-ENERGIA       { background: rgba(239,159,39,0.15); color: #FAC775; }
 [data-theme="dark"] .tag-FUNDOS        { background: rgba(99,153,34,0.15);  color: #C0DD97; }
-
-.bottom-nav {
-  display: none;
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  height: 60px;
-  background: var(--bg-nav);
-  backdrop-filter: blur(12px);
-  border-top: 0.5px solid var(--border);
-  z-index: 50;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0 8px 6px;
-}
-.bottom-nav a {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 3px; font-size: 10px; color: var(--text-muted);
-  text-decoration: none; padding: 4px 12px; border-radius: 8px;
-}
-.bottom-nav a.active { color: var(--accent-text); }
-.bottom-nav .nav-icon { font-size: 20px; line-height: 1; }
-
-@media (max-width: 768px) {
-  .nav-links-desktop { display: none !important; }
-  .bottom-nav { display: flex !important; }
-  body { padding-bottom: 64px; }
-  .email-row { flex-direction: column !important; }
-  .email-row input, .email-row button { width: 100% !important; }
-}
-
-/* ── Mobile responsivo ─────────────────────────────────────── */
-@media (max-width: 768px) {
-
-  /* Navbar: esconde links do meio */
-  .nav-links-desktop { display: none !important; }
-
-  /* Seções com padding menor */
-  section { padding-left: 16px !important; padding-right: 16px !important; }
-
-  /* Grid de notícias: 1 coluna */
-  div[style*="grid-template-columns: 2fr 1fr 1fr"] {
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  /* Grid de 4 colunas: 2 colunas */
-  div[style*="repeat(4,1fr)"] {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-
-  /* Grid de 5 colunas: 2 colunas */
-  div[style*="repeat(5,1fr)"] {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-
-  /* Newsletter: empilha input e botão */
-  .email-row {
-    flex-direction: column !important;
-  }
-
-  /* Títulos menores */
-  h1[style*="font-size: 34px"] { font-size: 26px !important; }
-  h2[style*="font-size: 34px"] { font-size: 26px !important; }
-  h1[style*="font-size: 26px"] { font-size: 22px !important; }
-
-  /* Footer empilhado */
-  footer {
-    flex-direction: column !important;
-    gap: 12px !important;
-    text-align: center !important;
-  }
-
-  /* Bottom nav aparece */
-  .bottom-nav { display: flex !important; }
-  body { padding-bottom: 64px; }
-}
-
-@media (max-width: 480px) {
-  /* Grid de 4: 1 coluna em telas muito pequenas */
-  div[style*="repeat(4,1fr)"] {
-    grid-template-columns: 1fr !important;
-  }
-}

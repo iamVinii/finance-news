@@ -32,39 +32,23 @@ export default function LoginPage() {
   }
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "var(--bg-primary)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontFamily: "'DM Sans', sans-serif",
-      padding: "24px",
-    }}>
-      <div style={{ width: "100%", maxWidth: 380 }}>
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <span style={{
-            fontFamily: "'DM Serif Display', serif",
-            fontSize: 24,
-            color: "var(--text-primary)",
-            letterSpacing: "-0.5px",
-          }}>
-            Finance<span style={{ color: "var(--accent)" }}>News</span>
+    <div className="min-h-screen bg-primary flex items-center justify-center font-sans p-6">
+      <div className="w-full max-w-[380px]">
+
+        <div className="text-center mb-8">
+          <span className="font-display text-2xl text-text-primary tracking-tight">
+            Finance<span className="text-accent">News</span>
           </span>
-          <p style={{ fontSize: 14, color: "var(--text-secondary)", marginTop: 8 }}>
+          <p className="text-sm text-text-secondary mt-2">
             Acesso restrito ao painel admin
           </p>
         </div>
 
-        <div style={{
-          background: "var(--bg-card)",
-          border: "0.5px solid var(--border)",
-          borderRadius: 12,
-          padding: "28px 24px",
-        }}>
-          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div className="bg-card border-[0.5px] border-border rounded-xl p-7">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
             <div>
-              <label style={{ fontSize: 13, color: "var(--text-secondary)", display: "block", marginBottom: 6 }}>
+              <label className="text-[13px] text-text-secondary block mb-1.5">
                 E-mail
               </label>
               <input
@@ -73,18 +57,12 @@ export default function LoginPage() {
                 onChange={e => setEmail(e.target.value)}
                 required
                 placeholder="admin@financenews.com"
-                style={{
-                  width: "100%", padding: "10px 14px", borderRadius: 8,
-                  border: "0.5px solid var(--border-strong)",
-                  background: "var(--bg-secondary)",
-                  color: "var(--text-primary)",
-                  fontSize: 14, fontFamily: "inherit", outline: "none",
-                }}
+                className="w-full px-3.5 py-2.5 rounded-lg border-[0.5px] border-border-strong bg-secondary text-text-primary text-sm font-sans outline-none"
               />
             </div>
 
             <div>
-              <label style={{ fontSize: 13, color: "var(--text-secondary)", display: "block", marginBottom: 6 }}>
+              <label className="text-[13px] text-text-secondary block mb-1.5">
                 Senha
               </label>
               <input
@@ -93,41 +71,30 @@ export default function LoginPage() {
                 onChange={e => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                style={{
-                  width: "100%", padding: "10px 14px", borderRadius: 8,
-                  border: "0.5px solid var(--border-strong)",
-                  background: "var(--bg-secondary)",
-                  color: "var(--text-primary)",
-                  fontSize: 14, fontFamily: "inherit", outline: "none",
-                }}
+                className="w-full px-3.5 py-2.5 rounded-lg border-[0.5px] border-border-strong bg-secondary text-text-primary text-sm font-sans outline-none"
               />
             </div>
 
             {error && (
-              <p style={{ fontSize: 13, color: "var(--danger)", textAlign: "center" }}>
-                {error}
-              </p>
+              <p className="text-[13px] text-danger text-center">{error}</p>
             )}
 
             <button
               type="submit"
               disabled={loading}
-              style={{
-                background: loading ? "var(--bg-secondary)" : "var(--accent)",
-                color: loading ? "var(--text-muted)" : "#fff",
-                border: "none", borderRadius: 8,
-                padding: "12px", fontSize: 15,
-                fontWeight: 500, cursor: loading ? "not-allowed" : "pointer",
-                fontFamily: "inherit", marginTop: 4,
-              }}
+              className={`mt-1 py-3 rounded-lg text-[15px] font-medium cursor-pointer font-sans border-none ${
+                loading
+                  ? "bg-secondary text-text-muted cursor-not-allowed"
+                  : "bg-accent text-white hover:opacity-90 transition-opacity"
+              }`}
             >
               {loading ? "Entrando..." : "Entrar"}
             </button>
           </form>
         </div>
 
-        <p style={{ textAlign: "center", fontSize: 13, color: "var(--text-muted)", marginTop: 20 }}>
-          <a href="/" style={{ color: "var(--accent-text)", textDecoration: "none" }}>
+        <p className="text-center text-[13px] text-text-muted mt-5">
+          <a href="/" className="text-accent-text no-underline">
             ← Voltar para o site
           </a>
         </p>
