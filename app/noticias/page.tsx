@@ -81,15 +81,7 @@ export default function NoticiasPage() {
             <p className="text-base font-medium text-text-primary mb-2">
               Nenhuma notícia publicada ainda
             </p>
-            <p className="text-sm text-text-secondary mb-5">
-              Vá ao painel admin e publique os rascunhos.
-            </p>
-            
-             <a href="/admin"
-              className="text-sm text-accent-text no-underline border-[0.5px] border-accent rounded-lg px-6 py-2.5"
-            >
-              Ir para o painel admin &#8594;
-            </a>
+                      
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useAdmin } from "@/hooks/useAdmin";
+import { signOut } from "next-auth/react";
 
 export default function AdminPage() {
   const {
@@ -38,6 +39,12 @@ export default function AdminPage() {
           <span>📥 <strong className="text-text-primary">{drafts.length}</strong> aguardando</span>
           <span>✅ <strong className="text-text-primary">{publishedToday}</strong> publicadas hoje</span>
           <a href="/" className="text-accent-text no-underline">&#8592; Ver site</a>
+            <button
+             onClick={() => signOut({ callbackUrl: "/login" })}
+             className="text-sm text-danger border-[0.5px] border-danger px-3 py-1.5 rounded-lg cursor-pointer bg-transparent font-sans hover:bg-danger/10 transition-colors"
+            >
+             Sair
+          </button>
         </div>
       </header>
 
